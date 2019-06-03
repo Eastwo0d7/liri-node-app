@@ -8,7 +8,6 @@ var moment = require('moment');
 var command = process.argv[2];
 var parameter = process.argv[3];
 
-
 function bandsInTown(){
     axios.get("https://rest.bandsintown.com/artists/" + parameter + "/events?app_id=codingbootcamp").then(
         function(response) {
@@ -21,19 +20,37 @@ function bandsInTown(){
 };       
         
 function spotifyApp(){
-    var song = process.argv[3];
-    spotify.search({ 
-        type: 'track', 
-        query: song
-    }, function(err, data) {
-        if (err) {
-            console.log('Error occurred: ' + err);
-            return
-        }
-        console.log("Artist: " + data.tracks.items[0].artists[0].name + "\nSong: " + data.tracks.items[0].name + 
-        "\nPreview: " + data.tracks.items[0].preview_url);
-    });
+    if (parameter === undefined){
+        var song = "Ace of Base The Sign";
+    } else {
+        song = parameter;
+    }
+        spotify.search({ 
+            type: 'track', 
+            query: song
+        }, function(err, data) {
+            if (err) {
+                console.log('Error occurred: ' + err);
+                return
+            }
+            console.log("Artist: " + data.tracks.items[0].artists[0].name + "\nSong: " + data.tracks.items[0].name + 
+            "\nPreview: " + data.tracks.items[0].preview_url + "\nAlbum: " + data.tracks.items[0].album.name);
+        });
 };
+
+function OMDBapp(){
+    if (parameter === undefined){
+        var movie = "Mr. Nobody";
+    } else {
+        movie = parameter;
+    }
+    axios.get("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy").then(
+  function(response) {
+    console.log("Title: " + response.data.Title + "\nYear: " + response.data.Year + "\nIMDB Rating: " + response.data.imdbRating + 
+    "\nRotten Tomatoes Rating: " + response.data.Ratings[1].value + "\nCountry: " + response.data.Country + 
+    "\nLanguage: " + response.data.Language + "\nPlot: " + response.data.Plot + "\nActors: " + response.data.Actors);
+  })
+}
 
 function initializeApp(){
     if (command === "concert-this"){
@@ -41,6 +58,9 @@ function initializeApp(){
     };
     if (command === "spotify-this-song"){
         spotifyApp();
+    };
+    if (command === "movie-this"){
+        OMDBapp();
     };
 };
 
