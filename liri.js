@@ -6,27 +6,42 @@ var spotify = new Spotify(keys.spotify);
 var moment = require('moment');
 
 var command = process.argv[2];
+var parameter = process.argv[3];
 
-if (command === "concert-this"){
-    var artist = process.argv[3];
-    axios.get("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp").then(
-  function(response) {
-    var results = response.data;
-    for (var i = 0; i < results.length; i++) {
-        console.log("Venue: " + results[i].venue.name + "\nCity: " + results[i].venue.city + "\nDate: " + 
-        moment(results[i].datetime).format('L') + "\n----------");
-    }
-  })
+
+function bandsInTown(){
+    axios.get("https://rest.bandsintown.com/artists/" + parameter + "/events?app_id=codingbootcamp").then(
+        function(response) {
+        var results = response.data;
+        for (var i = 0; i < results.length; i++) {
+            console.log("Venue: " + results[i].venue.name + "\nCity: " + results[i].venue.city + "\nDate: " + 
+            moment(results[i].datetime).format('L') + "\n----------");
+        }
+    })
+};       
+        
+function spotifyApp(){
+    var song = process.argv[3];
+    spotify.search({ 
+        type: 'track', 
+        query: song
+    }, function(err, data) {
+        if (err) {
+            console.log('Error occurred: ' + err);
+            return
+        }
+        console.log("Artist: " + data.tracks.items[0].artists[0].name + "\nSong: " + data.tracks.items[0].name + 
+        "\nPreview: " + data.tracks.items[0].preview_url);
+    });
 };
 
-if (command === "spotify-this-song"){
-    var song = process.argv[3];
-    spotify
-    .search({ type: 'track', query: song })
-    .then(function(response) {
-      console.log(response);
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-}
+function initializeApp(){
+    if (command === "concert-this"){
+        bandsInTown();
+    };
+    if (command === "spotify-this-song"){
+        spotifyApp();
+    };
+};
+
+initializeApp();
