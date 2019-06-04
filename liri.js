@@ -1,4 +1,5 @@
 require("dotenv").config();
+var fs = require("fs");
 var Spotify = require('node-spotify-api');
 var axios = require("axios");
 var keys = require("./keys.js");
@@ -52,6 +53,18 @@ function OMDBapp(){
   })
 }
 
+
+function doRandom(){
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (error) {
+            return console.log(error);
+        }
+        var dataArr = data.split(",");
+        command = dataArr[0];
+        parameter = dataArr[1];
+        initializeApp();
+    });
+}
 function initializeApp(){
     if (command === "concert-this"){
         bandsInTown();
@@ -62,6 +75,9 @@ function initializeApp(){
     if (command === "movie-this"){
         OMDBapp();
     };
+    if (command === "do-what-it-says"){
+        doRandom();
+    }
 };
 
 initializeApp();
