@@ -51,20 +51,21 @@ function OMDBapp(){
     "\nRotten Tomatoes Rating: " + response.data.Ratings[1].value + "\nCountry: " + response.data.Country + 
     "\nLanguage: " + response.data.Language + "\nPlot: " + response.data.Plot + "\nActors: " + response.data.Actors);
   })
-}
+};
 
 
 function doRandom(){
     fs.readFile("random.txt", "utf8", function(error, data) {
         if (error) {
-            return console.log(error);
+            return console.log('Error occurred: ' + error);
         }
         var dataArr = data.split(",");
         command = dataArr[0];
         parameter = dataArr[1];
         initializeApp();
     });
-}
+};
+
 function initializeApp(){
     if (command === "concert-this"){
         bandsInTown();
