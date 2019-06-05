@@ -9,7 +9,7 @@ My Liri app is designed to perform a handful of tasks based on commands given in
 The code in the Liri-node-app is based on splitting each command that Liri will perform into its own separate javascript function, and then grouping those functions into an 'initialize app' function which is the first function to run upon loading the code, and listens for the commands given by the user in Node. Depending on the command given in Node by the user, the app will obey the command by running the appropriate function.
 
 ## Instructions on running the app
-1. In Node, run npm init
+1. In Node, run: npm init
 2. Run the following:
     npm install dotevn
     npm install axios
@@ -22,8 +22,7 @@ The code in the Liri-node-app is based on splitting each command that Liri will 
  * To allow Liri to return information on a song which the app has already selected, run: node liri.js do-what-it-says
 
 ## Video of the app running
-
-## Link to the app
+[Demo](code-demo.mp4)
 
 ## Technologies used
 * Node-Spotify-API

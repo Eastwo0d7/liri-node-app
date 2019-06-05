@@ -7,7 +7,7 @@ var spotify = new Spotify(keys.spotify);
 var moment = require('moment');
 
 var command = process.argv[2];
-var parameter = process.argv[3];
+var parameter = process.argv.slice(3).join(" ");
 
 function bandsInTown(){
     axios.get("https://rest.bandsintown.com/artists/" + parameter + "/events?app_id=codingbootcamp").then(
